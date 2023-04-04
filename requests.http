@@ -1,0 +1,34 @@
+### Request without SQL injection to unsafe endpoint
+POST http://localhost:8000/client_unsafe
+Content-Type: application/json
+
+{
+  "name": "client_name"
+}
+
+
+### Request without SQL injection to safe endpoint
+POST http://localhost:8000/client_safe
+Content-Type: application/json
+
+{
+  "name": "clientName"
+}
+
+
+### Request with SQL injection to unsafe endpoint
+POST http://localhost:8000/client_unsafe
+Content-Type: application/json
+
+{
+  "name": "ClientName'); INSERT INTO clients_table(name) VALUES ('SQL INJECTION TRY WITH UNSAFE ENDPOINT"
+}
+
+
+### Request with SQL injection to safe endpoint
+POST http://localhost:8000/client_safe
+Content-Type: application/json
+
+{
+  "name": "Client Name'); INSERT INTO clients_table(name) VALUES ('SQL INJECTION TRY WITH SAFE ENDPOINT"
+}

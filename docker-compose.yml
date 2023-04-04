@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  web_service:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/web_service/
+    ports:
+      - 8000:8000
+    environment:
+      - POSTGRESQL_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 3
